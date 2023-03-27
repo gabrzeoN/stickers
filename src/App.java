@@ -8,11 +8,12 @@ import java.util.Map;
 
 public class App {
   public static void main(String[] args) throws Exception {
-    System.out.println("Hello, World!");
+    String envVar = System.getenv("ENV_VAR");
+    System.out.println("Enviroment var: " + envVar);
 
     String topTvsUrl = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopTVs.json";
     String top250Url = "https://gist.githubusercontent.com/lucasfugisawa/cbb0d10ee3901bd0541468e431c629b3/raw/1fe1f3340dfe5b5876a209c0e8226d090f6aef10/Top250Movies.json";
-    URI address = URI.create(top250Url);
+    URI address = URI.create(topTvsUrl);
     HttpRequest request = HttpRequest.newBuilder(address).GET().build();
     HttpClient client = HttpClient.newHttpClient();
     HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
@@ -40,5 +41,6 @@ public class App {
 
     System.out.println(Character.toString(128_512) + "👍" + " Done!");
     // Rodar no terminal cmd "chcp 65001" para aparecer os emojis
+    // ' export ENV_VAR="VALUE" ' to set environment variables
   }
 }
