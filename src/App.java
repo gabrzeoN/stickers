@@ -45,7 +45,8 @@ public class App {
 
 
     String imagePath = "./inputs/movie.jpg";
-    String stickerPhrase = "TOPEZERA";
+    // String stickerPhrase = "TOPEZERA";
+    String stickerPhrase = "muito massa mulecote";
     new Sticker().create(imagePath, stickerPhrase);
   }
 }

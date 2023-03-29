@@ -1,7 +1,9 @@
 import java.io.File;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -32,9 +34,17 @@ public class Sticker {
     graphics.setColor(Color.YELLOW);
     graphics.setFont(font);
 
+    // Get text dimensions based on font style and typed phrase
+    FontMetrics fontMetrics = graphics.getFontMetrics();
+    Rectangle2D phraseRectangle2d = fontMetrics.getStringBounds(stickerPhrase, graphics);
+    int phraseWidth = (int) phraseRectangle2d.getWidth();
+    
+    // Calculate writing start area
+    int widthToDraw = (int) ((originalWidth - phraseWidth) / 2);
+    int heightToDraw = (int) ( originalHeight + (originalHeight * 0.075) + (fontSize / 2)); // Horizontal center of blank space
+    
     // Write phrase on edited image
-    int heightToDraw = (int) ( originalHeight + (originalHeight * 0.075) + (fontSize / 2)); // Center of blank space
-    graphics.drawString(stickerPhrase, 100, heightToDraw);
+    graphics.drawString(stickerPhrase, widthToDraw, heightToDraw);
 
     // Write edited image to a file
     File directory = new File(String.valueOf("./outputs"));
