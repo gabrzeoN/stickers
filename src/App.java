@@ -42,5 +42,10 @@ public class App {
     System.out.println(Character.toString(128_512) + "👍" + " Done!");
     // Rodar no terminal cmd "chcp 65001" para aparecer os emojis
     // ' export ENV_VAR="VALUE" ' to set environment variables
+
+
+    String imagePath = "./inputs/movie.jpg";
+    String stickerPhrase = "TOPEZERA";
+    new Sticker().create(imagePath, stickerPhrase);
   }
 }
