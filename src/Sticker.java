@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -10,9 +12,19 @@ import javax.imageio.ImageIO;
 
 public class Sticker {
   
-  public void create(String imagePathname, String stickerPhrase) throws Exception {
-    // Read original image
+  public BufferedImage getOriginalImageFromPathname(String imagePathname) throws Exception{
     BufferedImage originalImage = ImageIO.read(new File(imagePathname));
+    return originalImage;
+  }
+
+  public BufferedImage getOriginalImageFromUrl(String imageUrl) throws Exception {
+    InputStream inputStream = new URL(imageUrl).openStream();
+    BufferedImage originalImage = ImageIO.read(inputStream);
+    return originalImage;
+  }
+
+  public void create(BufferedImage originalImage, String stickerPhrase) throws Exception {
+    // Read original image
     int originalHeight = originalImage.getHeight();
     int originalWidth = originalImage.getWidth();
 
@@ -30,6 +42,7 @@ public class Sticker {
     int fontSize = (int) (originalHeight * 0.05);
     int fontStyle = Font.BOLD;
     String fontName = Font.SANS_SERIF;
+    fontName = "Impact";
     Font font = new Font(fontName, fontStyle, fontSize);
     graphics.setColor(Color.YELLOW);
     graphics.setFont(font);
