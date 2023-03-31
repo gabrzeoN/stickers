@@ -7,7 +7,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 
 public class HttpClientApp {
   
-  public String getUrlContent(String url){
+  public String getData(String url){
     try {
       URI address = URI.create(url);
       HttpRequest request = HttpRequest.newBuilder(address).GET().build();
@@ -16,7 +16,7 @@ public class HttpClientApp {
       String body = response.body();
       return body;
     } catch (IOException | InterruptedException e) {
-      throw new RuntimeException("Erro ao consultar a URL. :(");
+      throw new RuntimeException("Erro ao consultar a URL. :(", e);
     }
   }
 }

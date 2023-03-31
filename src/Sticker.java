@@ -23,8 +23,8 @@ public class Sticker {
     return originalImage;
   }
 
-  public void create(BufferedImage originalImage, String stickerPhrase) throws Exception {
-    // Read original image
+  public void create(String imageTitle, BufferedImage originalImage, String stickerPhrase) throws Exception {
+    // Read original image dimensions
     int originalHeight = originalImage.getHeight();
     int originalWidth = originalImage.getWidth();
 
@@ -64,6 +64,6 @@ public class Sticker {
     if (!directory.exists()) {
         directory.mkdir();
     }
-    ImageIO.write(newImage, "png", new File("./outputs/picture.png"));
+    ImageIO.write(newImage, "png", new File("./outputs/" + imageTitle + ".png"));
   }
 }

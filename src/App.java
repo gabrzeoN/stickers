@@ -9,28 +9,38 @@ public class App {
     String envVar = System.getenv("ENV_VAR");
     System.out.println("Enviroment var: " + envVar);
 
-    String topTvsUrl = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopTVs.json";
-    String top250Url = "https://gist.githubusercontent.com/lucasfugisawa/cbb0d10ee3901bd0541468e431c629b3/raw/1fe1f3340dfe5b5876a209c0e8226d090f6aef10/Top250Movies.json";
+    // String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopTVs.json";
+    // String url = "https://gist.githubusercontent.com/lucasfugisawa/cbb0d10ee3901bd0541468e431c629b3/raw/1fe1f3340dfe5b5876a209c0e8226d090f6aef10/Top250Movies.json";
+    // ImdbContentExtractor extractor = new ImdbContentExtractor();
     
-    String body = new HttpClientApp().getUrlContent(top250Url);
+    String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/NASA-APOD.json";
+    NasaContentExtractor extractor = new NasaContentExtractor();
 
-    JsonParser jsonParser = new JsonParser();
-    List<Map<String, String>> movies = jsonParser.parse(body);
+    String jsonData = new HttpClientApp().getData(url);
+
+    List<Content> contents = extractor.extract(jsonData);
 
     String pink = "\u001b[35m";
     String reset = "\u001b[m";
     String bold = "\u001b[1m";
     String blueBg = "\u001b[37m \u001b[44m";
 
-    for (Map<String,String> movie : movies) {
-      String imDbRating = movie.get("imDbRating");
-      int intImDbRating = (int) Float.parseFloat(imDbRating);
-      String likes = "";
-      for(int i = 0; i < intImDbRating; i++) likes += "❤️ ";
+    Sticker sticker = new Sticker();
+    String stickerPhrase = "muito massa mulecote";
 
-      System.out.println(pink + "Title: " + reset + movie.get("title"));
-      System.out.println(bold + "Poster: " + reset + blueBg + movie.get("image") + reset);
-      System.out.println(bold + "Rating: " + reset + movie.get("imDbRating") + " " + likes +"\n");
+    for (Content content : contents) {
+      String likes = "";
+      // for(int i = 0; i < intImDbRating; i++) likes += "❤️ ";
+
+      System.out.println(pink + "Title: " + reset + content.getTitle());
+      System.out.println(bold + "Image: " + reset + blueBg + content.getUrlImage() + reset);
+      // System.out.println(bold + "Rating: " + reset + movie.get("imDbRating") + " " + likes +"\n");
+      
+      // String imagePath = "./inputs/movie.jpg";
+      // BufferedImage originalImage = sticker.getOriginalImageFromPathname(imagePath);
+  
+      BufferedImage originalImage = sticker.getOriginalImageFromUrl(content.getUrlImage());
+      sticker.create(content.getTitle(), originalImage, stickerPhrase);
     }
 
     System.out.println(Character.toString(128_512) + "👍" + " Done!");
@@ -38,15 +48,5 @@ public class App {
     // ' export ENV_VAR="VALUE" ' to set environment variables
 
 
-    String stickerPhrase = "muito massa mulecote";
-    Sticker sticker = new Sticker();
-    
-    // String imagePath = "./inputs/movie.jpg";
-    // BufferedImage originalImage = sticker.getOriginalImageFromPathname(imagePath);
-
-    String imagePath = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies_1.jpg";
-    BufferedImage originalImage = sticker.getOriginalImageFromUrl(imagePath);
-    
-    new Sticker().create(originalImage, stickerPhrase);
   }
 }
